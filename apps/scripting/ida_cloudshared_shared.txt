@@ -1,0 +1,34 @@
+[   22.6s] opened existing .i64 rc=0
+[   22.9s] module: ScriptingKit | functions: 207965 | hexrays: True
+[   22.9s] --func '0xd801a0' -> 1 个匹配
+/opt/data/scripts/ida_scan.py:157: DeprecationWarning: get_func() is deprecated, use get_func_start or get_func_entry_info()
+  f = ida_funcs.get_func(ea)
+
+--- _$s12ScriptingKit22CloudSharedDataServiceC6shared_WZ  (0xd801a0, 1058 chars) ---
+__int64 __swiftcall `one-time initialization function for shared`()
+{
+  void *v0; // x20
+  void *v1; // x21
+  Swift::MetadataRequest v2; // x0
+  Swift::Metadata *value; // kr00_8
+  _QWORD *v4; // x20
+  __int64 result; // x0
+  _QWORD v6[5]; // [xsp+8h] [xbp-48h] BYREF
+
+  v0 = (void *)String._bridgeToObjectiveC()(0xD00000000000001DLL, 0x8000000002633FA0LL);
+  v1 = objc_retainAutoreleasedReturnValue(objc_msgSend((id)objc_opt_self(&OBJC_CLASS_$_CKContainer), "containerWithIdentifier:", v0));
+  objc_release(v0);
+  v6[3] = &`type metadata for CloudKitLiveBackend`;
+  v6[4] = &`protocol witness table for CloudKitLiveBackend`;
+  v6[0] = v1;
+  value = `type metadata accessor for CloudSharedDataService`(v2).value;
+  v4 = swift_allocObject(value, 0xB0u, 0xFu);
+  swift_defaultActor_initialize(v4);
+  v4[21] = &_swiftEmptyDictionarySingleton;
+  result = `outlined init with take of _HasContiguousBytes`(v6, v4 + 14);
+  *(Swift::String *)&v4[19] = Swift::String("iCloud.com.thomfang.Scripting");
+  `static CloudSharedDataService.shared` = v4;
+  return result;
+}
+
+[   23.5s] done

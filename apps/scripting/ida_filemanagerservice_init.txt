@@ -1,0 +1,169 @@
+[   19.2s] opened existing .i64 rc=0
+[   19.4s] module: ScriptingKit | functions: 207965 | hexrays: True
+[   19.4s] --func '0xe998d4' -> 1 个匹配
+/opt/data/scripts/ida_scan.py:157: DeprecationWarning: get_func() is deprecated, use get_func_start or get_func_entry_info()
+  f = ida_funcs.get_func(ea)
+
+--- _$s12ScriptingKit18FileManagerServiceCACyc33_5B1937DE15036145C75C6480AC033703Llfc  (0xe998d4, 6489 chars) ---
+__int64 __swiftcall __swiftthrows `FileManagerService.().init()`(void *__swiftself self)
+{
+  Swift::MetadataResponse v2; // kr00_16
+  unsigned __int64 kind; // x24
+  char *v4; // x23
+  char *v5; // x22
+  char *v6; // x20
+  __int64 v7; // x26
+  Swift::Metadata *v8; // x0
+  _OWORD *v9; // x25
+  __int64 v10; // x1
+  __int64 v11; // x1
+  __int64 v12; // x25
+  __int64 v13; // x25
+  void *v14; // x26
+  id v15; // x27
+  void *v16; // x28
+  void *v17; // x25
+  __int64 v18; // x26
+  void (__fastcall *v19)(__int64, char *, Swift::Metadata *); // x25
+  void (__fastcall *v20)(char *, __int64, Swift::Metadata *); // x27
+  void (__fastcall *v21)(char *, Swift::Metadata *); // x24
+  char *v22; // x20
+  id v23; // x21
+  __int64 v24; // x0
+  void *v25; // x1
+  void *v26; // x20
+  void *v27; // x22
+  __int64 v28; // x1
+  id v29; // x21
+  void *v30; // x20
+  unsigned int v31; // w22
+  id v32; // x20
+  id v33; // x21
+  void *v34; // x20
+  void *v35; // x20
+  char *v37; // [xsp+0h] [xbp-70h] BYREF
+  id v38[10]; // [xsp+10h] [xbp-60h] BYREF
+
+  v2 = `type metadata accessor for URL`(MetadataRequest_Complete);
+  kind = v2.value[-1].kind;
+  v37 = (char *)v38 - ((*(_QWORD *)(kind + 64) + 15LL) & 0xFFFFFFFFFFFFFFF0LL);
+  v4 = v37;
+  v5 = v37;
+  v6 = v37;
+  *(_QWORD *)(self + 16) = 0xD00000000000001ALL;
+  *(_QWORD *)(self + 24) = 0x80000000026341C0LL;
+  *(_QWORD *)(self + 32) = 0x73656761726F7473LL;
+  *(_QWORD *)(self + 40) = isImmortal|isASCII|isSmall|smallCount8;
+  *(_QWORD *)(self + 48) = 0x64616F6C6E776F64LL;
+  *(_QWORD *)(self + 56) = 0xE900000000000073LL;
+  *(_QWORD *)(self + 64) = 0x6972637372657375LL;
+  *(_QWORD *)(self + 72) = 0xEB00000000737470LL;
+  *(_QWORD *)(self + 80) = 0xD000000000000017LL;
+  *(_QWORD *)(self + 88) = 0x80000000026341E0LL;
+  *(_QWORD *)(self + 96) = 0xD000000000000020LL;
+  *(_QWORD *)(self + 104) = 0x8000000002634200LL;
+  *(_QWORD *)(self + 112) = 0xD00000000000001DLL;
+  *(_QWORD *)(self + 120) = 0x8000000002633FA0LL;
+  *(_QWORD *)(self + 128) = objc_retainAutoreleasedReturnValue(objc_msgSend((id)objc_opt_self(
+                                                                                  &OBJC_CLASS_$_NSFileManager,
+                                                                                  v2.state), "defaultManager"));
+  v7 = OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.querySearchScopes;
+  v8 = __swift_instantiateConcreteTypeFromMangledNameV2(
+         &$ss23_ContiguousArrayStorageCySSGMd,
+         &$ss23_ContiguousArrayStorageCySSGMR);
+  v9 = swift_allocObject(v8, 0x40u, 7u);
+  v9[1] = xmmword_24121F0;
+  *((_QWORD *)v9 + 4) = `static String._unconditionallyBridgeFromObjectiveC(_:)`(NSMetadataQueryUbiquitousDataScope);
+  *((_QWORD *)v9 + 5) = v10;
+  *((_QWORD *)v9 + 6) = `static String._unconditionallyBridgeFromObjectiveC(_:)`(NSMetadataQueryUbiquitousDocumentsScope);
+  *((_QWORD *)v9 + 7) = v11;
+  *(_QWORD *)(self + v7) = v9;
+  v12 = OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.iCloudURLCacheLock;
+  *(_QWORD *)(self + v12) = objc_msgSend(objc_allocWithZone((Class)&OBJC_CLASS_$_NSLock), "init");
+  *(_QWORD *)(self + OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.iCloudURLCacheToken) = 0;
+  (*(void (__fastcall **)(__int64, __int64, __int64, Swift::Metadata *))(kind + 56))(
+    self + OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.iCloudURLCacheValue,
+    1,
+    1,
+    v2.value);
+  *(_BYTE *)(self + OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.iCloudURLCacheValid) = 0;
+  v13 = *(_QWORD *)(self + 80);
+  v14 = *(void **)(self + 88);
+  v15 = objc_retain(*(id *)(self + 128));
+  swift_bridgeObjectRetain(v14);
+  v16 = (void *)String._bridgeToObjectiveC()(v13, v14);
+  swift_bridgeObjectRelease(v14);
+  v17 = objc_retainAutoreleasedReturnValue(objc_msgSend(v15, "containerURLForSecurityApplicationGroupIdentifier:", v16));
+  objc_release(v15);
+  objc_release(v16);
+  if ( v17 == nullptr )
+    __break(1u);
+  `static URL._unconditionallyBridgeFromObjectiveC(_:)`(v17);
+  objc_release(v17);
+  v18 = OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.containerUrl;
+  v19 = *(void (__fastcall **)(__int64, char *, Swift::Metadata *))(kind + 32);
+  v19(self + OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.containerUrl, v6, v2.value);
+  v20 = *(void (__fastcall **)(char *, __int64, Swift::Metadata *))(kind + 16);
+  v20(v4, self + v18, v2.value);
+  `URL.appendingPathComponent(_:)`(0x746E656D75636F44LL, 0xE900000000000073LL);
+  v21 = *(void (__fastcall **)(char *, Swift::Metadata *))(kind + 8);
+  v21(v4, v2.value);
+  v19(self + OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.appGroupDocumentsDirectoryUrl, v5, v2.value);
+  v22 = v37;
+  v20(v37, self + v18, v2.value);
+  `URL.appendingPathComponent(_:isDirectory:)`(0x7972617262694CLL, isImmortal|isASCII|isSmall|smallCount7, 1);
+  v21(v22, v2.value);
+  `URL.appendingPathComponent(_:isDirectory:)`(0x736568636143LL, isImmortal|isASCII|isSmall|smallCount6, 1);
+  v21(v4, v2.value);
+  v19(self + OBJC_IVAR_$__TtC12ScriptingKit18FileManagerService.cachesUrl, v5, v2.value);
+  v23 = objc_retain(*(id *)(self + 128));
+  v24 = `URL.path(percentEncoded:)`(0);
+  v26 = v25;
+  v27 = (void *)String._bridgeToObjectiveC()(v24, v25);
+  swift_bridgeObjectRelease(v26);
+  LOBYTE(v26) = (unsigned __int8)objc_msgSend(v23, "fileExistsAtPath:", v27);
+  objc_release(v23);
+  objc_release(v27);
+  if ( ((unsigned __int8)v26 & 1) == 0 )
+  {
+    v29 = objc_retain(*(id *)(self + 128));
+    v30 = (void *)URL._bridgeToObjectiveC()();
+    v38[0] = nullptr;
+    v31 = (unsigned int)objc_msgSend(
+                          v29,
+                          "createDirectoryAtURL:withIntermediateDirectories:attributes:error:",
+                          v30,
+                          1,
+                          0,
+                          v38);
+    objc_release(v29);
+    objc_release(v30);
+    v32 = v38[0];
+    if ( v31 != 0 )
+    {
+      objc_retain(v38[0]);
+    }
+    else
+    {
+      v33 = objc_retain(v38[0]);
+      v34 = (void *)`_convertNSErrorToError(_:)`(v32);
+      objc_release(v33);
+      __swift_set_error(v34);
+      swift_willThrow(v34);
+      swift_errorRelease(v34);
+    }
+  }
+  v35 = objc_retainAutoreleasedReturnValue(objc_msgSend((id)objc_opt_self(&OBJC_CLASS_$_NSNotificationCenter, v28), "defaultCenter"));
+  objc_msgSend(
+    v35,
+    "addObserver:selector:name:object:",
+    self,
+    "invalidateICloudURLCache",
+    NSUbiquityIdentityDidChangeNotification,
+    0);
+  objc_release(v35);
+  __swift_set_error(v38[9]);
+  return self;
+}
+
+[   20.2s] done
