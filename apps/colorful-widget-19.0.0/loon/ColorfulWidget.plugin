@@ -1,0 +1,19 @@
+#!name=Colorful Widget 彩虹小组件 会员解锁
+#!desc=Colorful Widget 彩虹小组件 19.0.0（com.sm.widget）会员解锁，双链路。A｜服务端会员态：POST /api/widget/colorful/userExtend/get 的响应 data 是 AES-128-CBC(key=iv=jr1WrfW8q2sV6xir，响应零填充、base64url) 密文，明文为 {"vipFlag":1}；+[ServerVipUtils isServiceVip] 读 UserDefaults piv_server_status，该值只由这个接口的响应写入（sub_1001ACA58 ← sub_1001AC360，比较 ServerVipModel.vipFlag 是否等于 1，ObjC Ivar offset 16，64 位读取）。脚本直接返回离线算好的密文，不改请求、不需要 JS 加密库。B｜本地收据会员态：restore 时打 sandbox/buy.itunes.apple.com/verifyReceipt（+[MCWCheckReceiptFromAppStore checkAppStoreReceiptWithURL:receiptPassword:success:fail:]），-[MCWPurchaseManager refreshUserPayState] 命中 isPermanent:（cf_forever_14.4.0 / cf__forever_0_4.7.1 / wg_life_0_2.3.0）即 userPayState=3，-[MCWPurchaseManager isVipUser] = (userPayState==3) || isServiceVip；脚本把该响应换成 2099 年到期的终身收据，且不带 original_transaction_id（partner_tran_id 为空即跳过服务端设备绑定，直接落本地）。｜装好后冷启动一次；要更稳可再进「我的 - 恢复购买」点一次。｜边界：会员主题/壁纸资源在公开 CDN（cdn.resource.unbing.cn/resource_manager/file/*），代理层只改会员标记，不伪造任何服务端权益记录。
+#!icon=https://loon.1122275.xyz/plugins/ColorfulWidget/icon.png?v=1
+#!system=iOS,iPadOS
+#!author=Leslie159357
+#!homepage=https://github.com/Leslie159357/loon-plugin
+#!date=2026-11-04
+#!version=v1.1.0
+#!tag=解锁,会员,小组件,ColorfulWidget
+
+[Script]
+# A 服务端会员态（决定 piv_server_status）
+http-response ^https?:\/\/api\.unbing\.cn\/api\/widget\/colorful\/userExtend\/get script-path=https://loon.1122275.xyz/plugins/ColorfulWidget/colorfulwidget.js?v=1.1.0, requires-body=false, timeout=10, tag=ColorfulWidget_服务会员
+# B 本地收据会员态（恢复购买时触发）
+http-response ^https?:\/\/buy\.itunes\.apple\.com\/verifyReceipt script-path=https://loon.1122275.xyz/plugins/ColorfulWidget/colorfulwidget.js?v=1.1.0, requires-body=false, timeout=10, tag=ColorfulWidget_收据_正式
+http-response ^https?:\/\/sandbox\.itunes\.apple\.com\/verifyReceipt script-path=https://loon.1122275.xyz/plugins/ColorfulWidget/colorfulwidget.js?v=1.1.0, requires-body=false, timeout=10, tag=ColorfulWidget_收据_沙箱
+
+[MITM]
+hostname = %APPEND% api.unbing.cn, buy.itunes.apple.com, sandbox.itunes.apple.com
