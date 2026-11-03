@@ -15,7 +15,7 @@ iOS 付费功能解锁的**静态补丁 + dylib**工具集，Linux 侧完成，�
 | Doka 相机 2.2.15 | 端上（VipManager / NSUserDefaults） | dylib | `DokaCore_v2.dylib` | `apps/doka-2.2.15/README.md` |
 | Sketchbook 6.3 | 端上（`In_App_Purchases` 解密后比对 IDFV） | dylib | `SketchbookUnlock.dylib` | `apps/sketchbook-6.3/README.md` |
 | Pigment 3.16 | 端上（RevenueCat + 本地到期日） | dylib | `PigmentUnlock.dylib` | `apps/pigment-3.16/REPORT.md` |
-| 每日德语听力 26.10.2 | 端上（全局授权位） | dylib | `TingDeVIP.dylib` | `apps/ting-de-26.10.2/README.md` |
+| 每日德语听力 26.10.2 / 26.10.4 | 端上（全局授权位；26.10.4 判定点未变，dylib 零改动复用） | dylib | `TingDeVIP.dylib` | `apps/ting-de-26.10.4/README.md` |
 | ColorPop AI | 端上（LedgerKit 本地收据算权益） | dylib | `ColorPopUnlock.dylib` | `apps/colorpop/REPORT.md` |
 | 欧路词典 EuDic 系 | 端上（全局授权位 `0x64` 位掩码） | dylib | `EuDicUnlock.dylib` | `apps/eudic/REPORT.md` |
 | LingoDeer 3.1.16 | 协议层 RSA+AES 双信封（Loon 无解） | dylib 短路会员判定 | `LingoDeer_unlock_dylib.dylib` | `apps/lingodeer/REPORT.md` |
@@ -58,6 +58,7 @@ apps/doka-2.2.15/                # 源码 + dylib + 打包脚本 + IDA 定位日
 apps/sketchbook-6.3/             # Hook.c + dylib + 打包脚本
 apps/pigment-3.16/               # PigmentUnlock.c + dylib + 报告
 apps/ting-de-26.10.2/            # TingDeVIP.m + dylib + 注入/探针脚本
+apps/ting-de-26.10.4/            # 新版回归验证（判定点未变 + 复用注入记录）
 apps/yamby-2.1.0.11/             # Android：smali 补丁脚本 + 复盘（不含 keystore）
 apps/colorpop/                   # 报告 + dylib（MWM PublishingSDK/LedgerKit）
 apps/eudic/                      # 报告 + dylib（EuDic 系全局授权位）
