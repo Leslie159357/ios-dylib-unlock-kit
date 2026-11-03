@@ -1,0 +1,300 @@
+; ===== PurchaseEntitlements 构造默认值 @ 0x1000E3EFC (sub_1000E3E30) =====
+                MOV             W2, #1
+                BLR             X8
+                LDRSW           X8, [X26,#0x24]
+                STR             W8, [X22,#0x1E4]
+                LDR             X9, [X19,#0x38]
+                STR             X9, [X22,#0x1A8]
+                ADD             X0, X27, X8
+                MOV             W1, #1
+                MOV             W2, #1
+                MOV             X3, X24
+                BLR             X9
+                MOV             W8, #0x100
+                STRH            W8, [X27]
+                MOV             W8, #3
+                STRB            W8, [X27,#2]
+                MOV             X8, X20
+                BL              `static Transaction.currentEntitlements.getter`
+                MOV             X8, X23
+                BL              Transaction.Transactions.makeAsyncIterator()
+                LDR             X8, [X28,#8]
+                MOV             X0, X20
+                LDR             X1, [SP,#0x70+var_68]
+                BLR             X8
+                LDR             X20, [SP,#0x70+var_60]
+                BL              `static MainActor.shared.getter`
+                STR             X0, [X22,#0x1B0]
+                ADRL            X0, qword_10053A3E8
+                ADRP            X1, #_$s8StoreKit11TransactionV12TransactionsV13AsyncIteratorVMa_ptr@PAGE
+                LDR             X1, [X1,#_$s8StoreKit11TransactionV12TransactionsV13AsyncIteratorVMa_ptr@PAGEOFF] ; /System/Library/Frameworks/StoreKit.framework/StoreKit
+                ADRP            X2, #_$s8StoreKit11TransactionV12TransactionsV13AsyncIteratorVScIAAMc_ptr@PAGE
+                LDR             X2, [X2,#_$s8StoreKit11TransactionV12TransactionsV13AsyncIteratorVScIAAMc_ptr@PAGEOFF] ; /System/Library/Frameworks/StoreKit.framework/StoreKit
+                BL              sub_100007A30
+                MOV             X19, X0
+                ADRP            X8, #_$sScI4next7ElementQzSgyYaKFTjTu_ptr@PAGE
+                LDR             X8, [X8,#_$sScI4next7ElementQzSgyYaKFTjTu_ptr@PAGEOFF] ; /usr/lib/swift/libswift_Concurrency.dylib
+                LDR             W0, [X8,#4] ; size
+                BL              _swift_task_alloc
+                MOV             X8, X0
+                ADRL            X9, sub_1000E3FB0
+                STR             X0, [X22,#0x1B8]
+                STP             X22, X9, [X0]
+                LDR             X20, [X22,#0x158]
+                LDR             X1, [X22,#0x148]
+                LDR             X0, [X22,#0x128]
+                MOV             X22, X8
+                MOV             X2, X19
+                LDP             X29, X30, [SP,#0x70+var_10]
+                LDP             X21, X19, [SP,#0x70+var_28]
+                LDP             X24, X23, [SP,#0x70+var_38]
+                LDP             X26, X25, [SP,#0x70+var_48]
+                LDP             X28, X27, [SP,#0x70+var_58]
+                AND             X29, X29, #0xEFFFFFFFFFFFFFFF
+                ADD             SP, SP, #0x70 ; 'p'
+                B               `dispatch thunk of AsyncIteratorProtocol.next()`
+; } // starts at 1000E3E30
+; End of function sub_1000E3E30
+
+
+; =============== S U B R O U T I N E =======================================
+
+
+sub_1000E3FB0                           ; DATA XREF: sub_1000E3E30+13C↑o
+
+var_28          = -0x28
+var_18          = -0x18
+var_10          = -0x10
+
+
+; ===== PurchaseStore.apply(_:) @ sub_1000E9198 =====
+sub_1000E9198                           ; CODE XREF: sub_1000E7CAC+780↑p
+                                        ; sub_1000E8858+60↑p
+
+var_90          = -0x90
+var_88          = -0x88
+var_80          = -0x80
+var_78          = -0x78
+var_70          = -0x70
+var_64          = -0x64
+var_58          = -0x58
+var_50          = -0x50
+var_40          = -0x40
+var_30          = -0x30
+var_20          = -0x20
+var_10          = -0x10
+var_s0          =  0
+
+                STP             X28, X27, [SP,#-0x10+var_50]!
+                STP             X26, X25, [SP,#0x50+var_40]
+                STP             X24, X23, [SP,#0x50+var_30]
+                STP             X22, X21, [SP,#0x50+var_20]
+                STP             X20, X19, [SP,#0x50+var_10]
+                STP             X29, X30, [SP,#0x50+var_s0]
+                ADD             X29, SP, #0x50
+                SUB             SP, SP, #0x40
+                MOV             X19, X20
+                MOV             X25, X0
+                MOV             X0, #0  ; request
+                BL              `type metadata accessor for Locale`
+                MOV             X21, X0
+                LDUR            X23, [X0,#-8]
+                LDR             X8, [X23,#0x40]
+                MOV             X9, X8  ; size
+                ADRP            X16, #___chkstk_darwin_ptr@PAGE
+                LDR             X16, [X16,#___chkstk_darwin_ptr@PAGEOFF] ; /usr/lib/libSystem.B.dylib
+                BLR             X16     ; ___chkstk_darwin ; /usr/lib/libSystem.B.dylib
+                MOV             X9, SP
+                ADD             X8, X8, #0xF
+                AND             X8, X8, #0xFFFFFFFFFFFFFFF0
+                SUB             X22, X9, X8
+                MOV             SP, X22
+                ADRL            X0, qword_10053A058
+                ADRL            X1, qword_10040B9E0
+                BL              sub_100005700
+                LDUR            X8, [X0,#-8]
+                LDR             X9, [X8,#0x40] ; size
+                ADD             X8, X9, #0xF
+                AND             X8, X8, #0xFFFFFFFFFFFFFFF0
+                ADRP            X16, #___chkstk_darwin_ptr@PAGE
+                LDR             X16, [X16,#___chkstk_darwin_ptr@PAGEOFF] ; /usr/lib/libSystem.B.dylib
+                BLR             X16     ; ___chkstk_darwin ; /usr/lib/libSystem.B.dylib
+                MOV             X9, SP
+                SUB             X20, X9, X8
+                MOV             SP, X20
+                ADRL            X0, qword_10053E260
+                ADRL            X1, qword_100412D20
+                BL              sub_100005700
+                LDUR            X8, [X0,#-8]
+                LDR             X9, [X8,#0x40] ; size
+                ADD             X8, X9, #0xF
+                AND             X8, X8, #0xFFFFFFFFFFFFFFF0
+                ADRP            X16, #___chkstk_darwin_ptr@PAGE
+                LDR             X16, [X16,#___chkstk_darwin_ptr@PAGEOFF] ; /usr/lib/libSystem.B.dylib
+                BLR             X16     ; ___chkstk_darwin ; /usr/lib/libSystem.B.dylib
+                MOV             X9, SP
+                SUB             X26, X9, X8
+                MOV             SP, X26
+                ADRP            X8, #_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore.entitlementRevision@PAGE
+                LDR             X8, [X8,#_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore.entitlementRevision@PAGEOFF]
+                LDR             X9, [X19,X8]
+                ADDS            X9, X9, #1
+                B.VS            loc_1000E96EC
+                STUR            X20, [X29,#var_70]
+                STR             X9, [X19,X8]
+                LDRB            W20, [X25]
+                LDRB            W8, [X19,#0x10]
+                ADRP            X28, #_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore._$observationRegistrar@PAGE
+                ADRP            X24, #_$sytN_ptr@PAGE
+                LDR             X24, [X24,#_$sytN_ptr@PAGEOFF] ; /usr/lib/swift/libswiftCore.dylib
+                CMP             W20, W8
+                STUR            X21, [X29,#var_78]
+                STUR            X22, [X29,#var_88]
+                B.EQ            loc_1000E9344
+                ADRL            X0, qword_10040BD30 ; pattern
+                BL              _swift_getKeyPath
+                MOV             X27, X0
+                MOV             X22, SP
+                MOV             W9, #0x19 ; size
+                ADRP            X16, #___chkstk_darwin_ptr@PAGE
+                LDR             X16, [X16,#___chkstk_darwin_ptr@PAGEOFF] ; /usr/lib/libSystem.B.dylib
+                BLR             X16     ; ___chkstk_darwin ; /usr/lib/libSystem.B.dylib
+                MOV             X8, SP
+                SUB             X21, X8, #0x20 ; ' '
+                MOV             SP, X21
+                STUR            X19, [X8,#-0x10]
+                STURB           W20, [X8,#-8]
+                LDR             X20, [X28,#_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore._$observationRegistrar@PAGEOFF]
+                STUR            X19, [X29,#var_58]
+                ADRL            X0, qword_100536048
+                ADRL            X1, `type metadata accessor for PurchaseStore`
+                ADRL            X2, qword_10040BD10
+                BL              sub_100007A30
+                MOV             X5, X0
+                ADRL            X2, sub_100032FFC
+                SUB             X0, X29, #-var_58
+                ADD             X4, X24, #8
+                ADD             X20, X19, X20
+                MOV             X1, X27
+                MOV             X3, X21
+                MOV             X21, #0
+                BL              `ObservationRegistrar.withMutation<A, B, C>(of:keyPath:_:)`
+                MOV             X0, X27 ; object
+                BL              _swift_release
+                MOV             SP, X22
+                B               loc_1000E934C
+; ---------------------------------------------------------------------------
+
+loc_1000E9344                           ; CODE XREF: sub_1000E9198+114↑j
+
+; ===== isPro getter @ sub_1000D9190 (LDRB @ 0x1000D91FC) =====
+sub_1000D9190                           ; DATA XREF: __got:000000010050C3A0↓o
+
+var_28          = -0x28
+var_20          = -0x20
+var_10          = -0x10
+var_s0          =  0
+
+                SUB             SP, SP, #0x40
+                STP             X22, X21, [SP,#0x30+var_20]
+                STP             X20, X19, [SP,#0x30+var_10]
+                STP             X29, X30, [SP,#0x30+var_s0]
+                ADD             X29, SP, #0x30
+                MOV             X19, X20
+                ADRL            X0, qword_10040BD30 ; pattern
+                BL              _swift_getKeyPath
+                MOV             X21, X0
+                ADRP            X8, #_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore._$observationRegistrar@PAGE
+                LDR             X20, [X8,#_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore._$observationRegistrar@PAGEOFF]
+                STR             X19, [SP,#0x30+var_28]
+                ADRL            X0, qword_100536048
+                ADRL            X1, `type metadata accessor for PurchaseStore`
+                ADRL            X2, qword_10040BD10
+                BL              sub_100007A30
+                MOV             X2, X0
+                ADD             X0, SP, #0x30+var_28
+                ADD             X20, X19, X20
+                MOV             X1, X21
+                BL              `ObservationRegistrar.access<A, B>(_:keyPath:)`
+                MOV             X0, X21 ; object
+                BL              _swift_release
+                LDRB            W0, [X19,#0x10]
+                LDP             X29, X30, [SP,#0x30+var_s0]
+                LDP             X20, X19, [SP,#0x30+var_10]
+                LDP             X22, X21, [SP,#0x30+var_20]
+                ADD             SP, SP, #0x40 ; '@'
+                RET
+; End of function sub_1000D9190
+
+
+; =============== S U B R O U T I N E =======================================
+
+; ===== isPro setter @ sub_1000E4C08 (AND @ 0x1000E4C20) =====
+sub_1000E4C08                           ; CODE XREF: sub_10003BD68+14↑p
+                                        ; sub_10003CBF8+14↑p
+
+var_38          = -0x38
+var_30          = -0x30
+var_20          = -0x20
+var_10          = -0x10
+var_s0          =  0
+
+                STP             X24, X23, [SP,#-0x10+var_30]!
+                STP             X22, X21, [SP,#0x30+var_20]
+                STP             X20, X19, [SP,#0x30+var_10]
+                STP             X29, X30, [SP,#0x30+var_s0]
+                ADD             X29, SP, #0x30
+                SUB             SP, SP, #0x10
+                AND             W22, W0, #1
+                LDRB            W8, [X20,#0x10]
+                CMP             W22, W8
+                B.EQ            loc_1000E4CD0
+                ADRL            X0, qword_10040BD30 ; pattern
+                BL              _swift_getKeyPath
+                MOV             X19, X0
+                MOV             X23, SP
+                MOV             W9, #0x19 ; size
+                ADRP            X16, #___chkstk_darwin_ptr@PAGE
+                LDR             X16, [X16,#___chkstk_darwin_ptr@PAGEOFF] ; /usr/lib/libSystem.B.dylib
+                BLR             X16     ; ___chkstk_darwin ; /usr/lib/libSystem.B.dylib
+                MOV             X8, SP
+                SUB             X21, X8, #0x20 ; ' '
+                MOV             SP, X21
+                STUR            X20, [X8,#-0x10]
+                STURB           W22, [X8,#-8]
+                ADRP            X8, #_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore._$observationRegistrar@PAGE
+                LDR             X22, [X8,#_OBJC_IVAR_$__TtC8ohmycity13PurchaseStore._$observationRegistrar@PAGEOFF]
+                STUR            X20, [X29,#var_38]
+                ADRL            X0, qword_100536048
+                ADRL            X1, `type metadata accessor for PurchaseStore`
+                ADRL            X2, qword_10040BD10
+                BL              sub_100007A30
+                MOV             X5, X0
+                ADRP            X8, #_$sytN_ptr@PAGE
+                LDR             X8, [X8,#_$sytN_ptr@PAGEOFF] ; /usr/lib/swift/libswiftCore.dylib
+                ADRL            X2, sub_10002FAEC
+                SUB             X0, X29, #-var_38
+                ADD             X4, X8, #8
+
+; ===== activePlan setter @ sub_1000E52C0 (AND @ 0x1000E52D8) =====
+sub_1000E52C0                           ; CODE XREF: sub_1000E529C+14↑p
+                                        ; sub_1000E9198+324↓p ...
+
+var_38          = -0x38
+var_30          = -0x30
+var_20          = -0x20
+var_10          = -0x10
+var_s0          =  0
+
+                STP             X24, X23, [SP,#-0x10+var_30]!
+                STP             X22, X21, [SP,#0x30+var_20]
+                STP             X20, X19, [SP,#0x30+var_10]
+                STP             X29, X30, [SP,#0x30+var_s0]
+                ADD             X29, SP, #0x30
+                SUB             SP, SP, #0x10
+                AND             W22, W0, #0xFF
+                LDRB            W8, [X20,#0x21]
+                CMP             W8, #3
+                B.NE            loc_1000E5390
+                CMP             W22, #3
+                B.EQ            loc_1000E5398

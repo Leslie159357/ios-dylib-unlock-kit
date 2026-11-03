@@ -1,9 +1,18 @@
 # ios-dylib-unlock-kit
 
 iOS 付费功能解锁的**静态补丁 + dylib 注入**工具集，Linux 侧完成，产出未签名 IPA。
-首个完整案例：**Scripting 3.2.1（com.scripting.ios）**。
+已收录案例：**Scripting 3.2.1（com.scripting.ios）**、**OhMyCity 1.1.3（com.7mlstudio.ohmycity）**。
 
 不含任何 App 本体（IPA / 解密包），只放逆向结论、补丁脚本与自编译 dylib。
+
+## 案例索引
+
+| App | 判定位置 | 手段 | 报告 |
+|---|---|---|---|
+| Scripting 3.2.1 | 端上（本地快照 + App Group 授权） | 序言补丁 + dylib（切 CloudKit） | `apps/scripting/REPORT.md` |
+| OhMyCity 1.1.3 | 端上（StoreKit 2 本地验签） | 6 条 4 字节指令补丁 | `apps/ohmycity/REPORT.md` |
+
+判断口诀：**回包里能找到 `is_pro` / `isPremium` 之类的字段 → 去写 Loon/QX；找不到 → 到这里来脱壳打补丁。**
 
 ## 什么时候走这条路
 
@@ -32,6 +41,10 @@ apps/scripting/
   variant-entitlement-spoof.c    # 备选：伪造 iCloud entitlement 的变体
   REPORT.md                      # 完整逆向报告（判定链、崩溃根因、逐版修复）
   ida_*.txt                      # IDA 反编译证据
+apps/ohmycity/
+  patch_ohmycity.py              # 6 条指令补丁，带原指令 + 整包 sha256 校验
+  REPORT.md                      # 抓包判定、@Observable 内联坑、判定链与补丁表
+  ida_evidence.txt               # IDA 反汇编证据（结构体默认值 / apply / getter / setter）
 scripts/
   patch_scriptingkit.py          # 按符号地址下序言补丁，带原指令校验
   inject_lc.py                   # 追加 LC_LOAD_DYLIB（利用 load commands 后空洞）
@@ -66,7 +79,7 @@ python3 scripts/repack_multi.py 原包.ipa 输出.ipa manifest.json
 
 签名自理：`Frameworks/` 下的 dylib 必须和主二进制一起重签，否则启动阶段会被内核拒绝。
 
-## 两个必须踩过的坑
+## 三个必须踩过的坑
 
 **1. 别用 C 可变参声明调 objc_msgSend。**
 `extern id objc_msgSend(id, SEL, ...)` 在 Apple arm64 ABI 下会把可变实参**压栈**，
@@ -83,6 +96,13 @@ typedef id (*Msg1)(id, SEL, id);
 **2. 侧载重签会吃掉 entitlement，而 App 往往是强制解包。**
 典型崩溃：`containerURL(...)` 返回 nil → `__break(1u)`；`+[CKContainer containerWithIdentifier:]`
 缺 iCloud 授权直接抛 NSException → SIGABRT。这两类都在 dylib 里兜底，不要试图改签名面板糊过去。
+
+**3. SwiftUI `@Observable` 的属性，getter / setter 常常不是判定锚点。**
+同模块 full-module 优化会把读内联成 `LDRB W?, [store,#off]`（不 `bl` getter），
+写则走 `ObservationRegistrar.withMutation(of:keyPath:_:)` + 闭包直写内存（不调 setter）。
+只改 getter/setter 会出现「补丁全打上了、装上毫无反应」。
+正确落点是**状态写入的源头**：结构体默认值 + `apply(_:)` 里的读取指令。
+OhMyCity 就是第一版改错位置、第二版才命中的典型案例（见 `apps/ohmycity/REPORT.md` 第 3 节）。
 
 ## 免责
 
