@@ -121,6 +121,17 @@ typedef id (*Msg1)(id, SEL, id);
 正确落点是**状态写入的源头**：结构体默认值 + `apply(_:)` 里的读取指令。
 OhMyCity 就是第一版改错位置、第二版才命中的典型案例（见 `apps/ohmycity/REPORT.md` 第 3 节）。
 
+## 交付与清理约定
+
+每次破解收尾固定两步，不留在机器上堆着：
+
+1. **入库**：源码 + 补丁脚本 + dylib + 判定链报告进 `apps/<app>/`，并在上面的索引表加一行。
+2. **清本地**：脱壳 IPA、成品 IPA、解包树、IDA 数据库、工作目录一律删掉；
+   保留自研 App 构建与脱壳/越狱工具链（`fairplay-decrypt-*` + `credential.bin`、`dopamine`、`frida-server`）。
+
+删前先判可重建性：`ipatool list-purchases` 里有的（自己已购）删了能重下重脱；
+没有的（iOSGods、第三方源）删了回不来。
+
 ## 免责
 
 仅用于自己已购或自测的 App。仓库不提供任何 App 二进制，产物需自行签名安装。
