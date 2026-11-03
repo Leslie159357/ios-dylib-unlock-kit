@@ -1,0 +1,20 @@
+#!name=Facetune VIP 解锁
+#!desc=解锁 Facetune (com.lightricks.Facetune2) 会员权益，并补满 AI/导出类消耗币。基于 26.36 build 10288 抓包与二进制核对。
+#!icon=https://loon.1122275.xyz/plugins/Facetune/icon.png
+#!tag=unlock,修图,订阅,工具
+#!system=iOS,iPadOS
+#!author=Leslie159357
+#!homepage=https://github.com/Leslie159357/loon-plugin
+#!date=2026-11-03
+
+[Rewrite]
+^https?:\/\/api\.griffin-ww-prd\.lightricks\.com\/shared-subscription\/entitlement header-del If-None-Match
+^https?:\/\/api\.griffin-ww-prd\.lightricks\.com\/shared-subscription\/entitlement header-del if-none-match
+^https?:\/\/api\.prd\.eventpay\.lightricks\.org\/eventpay\/api\/v2\/consumables\/balance header-del If-None-Match
+
+[Script]
+http-response ^https?:\/\/api\.griffin-ww-prd\.lightricks\.com\/shared-subscription\/entitlement script-path=https://loon.1122275.xyz/plugins/Facetune/facetune.js?v=1.0.2, requires-body=true, max-size=1048576, timeout=10, tag=Facetune_Entitlement
+http-response ^https?:\/\/api\.prd\.eventpay\.lightricks\.org\/eventpay\/api\/v2\/consumables\/balance script-path=https://loon.1122275.xyz/plugins/Facetune/facetune.js?v=1.0.2, requires-body=true, max-size=1048576, timeout=10, tag=Facetune_Credits
+
+[MITM]
+hostname = %APPEND% api.griffin-ww-prd.lightricks.com, api.prd.eventpay.lightricks.org

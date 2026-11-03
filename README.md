@@ -21,6 +21,8 @@ iOS 付费功能解锁的**静态补丁 + dylib**工具集，Linux 侧完成，�
 | LingoDeer 3.1.16 | 协议层 RSA+AES 双信封（Loon 无解） | dylib 短路会员判定 | `LingoDeer_unlock_dylib.dylib` | `apps/lingodeer/REPORT.md` |
 | Yamby 2.1.0.11（Android） | smali 门禁（20 处校验调用 + flavor 常量） | APK 重打包 | `patch_gates_v2/v3.py` | `apps/yamby-2.1.0.11/复盘-逆向分析.md` |
 
+| Facetune 26.36 | 端上（三路 OR 判定，Griffin 权益无效） | 7 条指令补丁 + group 改写（未验证已封存） | `scripts/patch_facetune.py` | `apps/facetune/REPORT.md` |
+
 判断口诀：**回包里能找到 `is_pro` / `isPremium` 之类的字段 → 去写 Loon/QX；找不到 → 到这里来脱壳打补丁。**
 
 ## 什么时候走这条路
