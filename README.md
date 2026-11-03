@@ -1,16 +1,25 @@
 # ios-dylib-unlock-kit
 
-iOS 付费功能解锁的**静态补丁 + dylib 注入**工具集，Linux 侧完成，产出未签名 IPA。
-已收录案例：**Scripting 3.2.1（com.scripting.ios）**、**OhMyCity 1.1.3（com.7mlstudio.ohmycity）**。
+iOS 付费功能解锁的**静态补丁 + dylib**工具集，Linux 侧完成，产出未签名 IPA。
+收录 10 个已破解案例：源码、dylib 产物、补丁脚本与判定链报告都在 `apps/<app>/`。
 
-不含任何 App 本体（IPA / 解密包），只放逆向结论、补丁脚本与自编译 dylib。
+不含任何 App 本体（IPA / 解密包），只放逆向结论、补丁脚本、自编译 dylib 与关键证据。
+各案例 README 里出现的 `/opt/data/downloads/...ipa` 是当时本机构建路径，仓库不存这些包。
 
 ## 案例索引
 
-| App | 判定位置 | 手段 | 报告 |
-|---|---|---|---|
-| Scripting 3.2.1 | 端上（本地快照 + App Group 授权） | 序言补丁 + dylib（切 CloudKit） | `apps/scripting/REPORT.md` |
-| OhMyCity 1.1.3 | 端上（StoreKit 2 本地验签） | 6 条 4 字节指令补丁 | `apps/ohmycity/REPORT.md` |
+| App | 判定位置 | 手段 | 产物 | 报告 |
+|---|---|---|---|---|
+| Scripting 3.2.1 | 端上（本地快照 + App Group 授权） | 序言补丁 + dylib（切 CloudKit） | `lib/ScriptingGroupFix.dylib` | `apps/scripting/REPORT.md` |
+| OhMyCity 1.1.3 | 端上（StoreKit 2 本地验签） | 6 条 ARM64 指令补丁 | —（无 dylib） | `apps/ohmycity/REPORT.md` |
+| Doka 相机 2.2.15 | 端上（VipManager / NSUserDefaults） | dylib | `DokaCore_v2.dylib` | `apps/doka-2.2.15/README.md` |
+| Sketchbook 6.3 | 端上（`In_App_Purchases` 解密后比对 IDFV） | dylib | `SketchbookUnlock.dylib` | `apps/sketchbook-6.3/README.md` |
+| Pigment 3.16 | 端上（RevenueCat + 本地到期日） | dylib | `PigmentUnlock.dylib` | `apps/pigment-3.16/REPORT.md` |
+| 每日德语听力 26.10.2 | 端上（全局授权位） | dylib | `TingDeVIP.dylib` | `apps/ting-de-26.10.2/README.md` |
+| ColorPop AI | 端上（LedgerKit 本地收据算权益） | dylib | `ColorPopUnlock.dylib` | `apps/colorpop/REPORT.md` |
+| 欧路词典 EuDic 系 | 端上（全局授权位 `0x64` 位掩码） | dylib | `EuDicUnlock.dylib` | `apps/eudic/REPORT.md` |
+| LingoDeer 3.1.16 | 协议层 RSA+AES 双信封（Loon 无解） | dylib 短路会员判定 | `LingoDeer_unlock_dylib.dylib` | `apps/lingodeer/REPORT.md` |
+| Yamby 2.1.0.11（Android） | smali 门禁（20 处校验调用 + flavor 常量） | APK 重打包 | `patch_gates_v2/v3.py` | `apps/yamby-2.1.0.11/复盘-逆向分析.md` |
 
 判断口诀：**回包里能找到 `is_pro` / `isPremium` 之类的字段 → 去写 Loon/QX；找不到 → 到这里来脱壳打补丁。**
 
@@ -45,6 +54,14 @@ apps/ohmycity/
   patch_ohmycity.py              # 6 条指令补丁，带原指令 + 整包 sha256 校验
   REPORT.md                      # 抓包判定、@Observable 内联坑、判定链与补丁表
   ida_evidence.txt               # IDA 反汇编证据（结构体默认值 / apply / getter / setter）
+apps/doka-2.2.15/                # 源码 + dylib + 打包脚本 + IDA 定位日志
+apps/sketchbook-6.3/             # Hook.c + dylib + 打包脚本
+apps/pigment-3.16/               # PigmentUnlock.c + dylib + 报告
+apps/ting-de-26.10.2/            # TingDeVIP.m + dylib + 注入/探针脚本
+apps/yamby-2.1.0.11/             # Android：smali 补丁脚本 + 复盘（不含 keystore）
+apps/colorpop/                   # 报告 + dylib（MWM PublishingSDK/LedgerKit）
+apps/eudic/                      # 报告 + dylib（EuDic 系全局授权位）
+apps/lingodeer/                  # 报告（RSA+AES 双信封实证）+ dylib
 scripts/
   patch_scriptingkit.py          # 按符号地址下序言补丁，带原指令校验
   inject_lc.py                   # 追加 LC_LOAD_DYLIB（利用 load commands 后空洞）
