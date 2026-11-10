@@ -58,13 +58,23 @@ ldid -S entitlements.plist Yogurt.patched          # 自签，用户侧再由 Lc
 # 3. 可选：Info.plist CFBundleDisplayName 改成 "Xmind Pro6" 作为版本指纹
 ```
 
+## 成品与分发
+
+- 版本指纹：`CFBundleDisplayName = "Xmind Pro6"`（装完桌面图标改名，用于确认包已替换）
+- 体积 509.0 MB；未签名，LcSign 自签安装
+- 分发形态：Telegram 频道 @rjpoxzs 11 卷（Bot API 单文件 50 MB 上限），
+  合并 `cat part_01 … part_11 > Xmind_Pro6.ipa`
+- sha256 `e7bec3507cdfce19de3d1395a92a88529a52a9e5ac2bdb3db317898e28d70b4f`
+- 本机不再保留成品与脱壳包（按交付惯例清理，约 8.5 GB）；重建用本目录 `patch.py` + 仓库根流程
+
 ## 状态
 
-- 静态补丁集与打包流程：已验证（包内字节复核、ldid 签名通过、网关直链 206）
+- 静态补丁集与打包流程：已验证（包内字节复核、ldid 签名通过、频道分卷上传 11/11 成功）
 - 真机：v5（三处）用户确认安装成功、公共空间仍弹「3 个」→ 据此补出 `0x42E81C`；
-  **v6（六处）尚未拿到用户全功能确认**，属待验收状态
+  v6（六处）已分发，**全功能逐项确认未回收**，属待验收状态
+- 发布文案（频道版）由用户自撰并已发布，本存档只记录技术事实
 
 ## 配套
 
-- Loon 插件目录：`loon-plugin/plugins/XMind/`（v10 仅展示层归一，不参与解锁）
+- Loon 插件目录：`loon-plugin/plugins/XMind/`（v10 仅展示层归一，不参与解锁；本方案不需要 Loon）
 - 历史无效实现 v2–v9 仍在同目录，仅供考古
