@@ -1,7 +1,7 @@
 # ios-dylib-unlock-kit
 
 iOS 付费功能解锁的**静态补丁 + dylib**工具集，Linux 侧完成，产出未签名 IPA。
-收录 11 个已破解案例：源码、dylib 产物、补丁脚本与判定链报告都在 `apps/<app>/`。
+收录 12 个已破解案例：源码、dylib 产物、补丁脚本与判定链报告都在 `apps/<app>/`。
 
 不含任何 App 本体（IPA / 解密包），只放逆向结论、补丁脚本、自编译 dylib 与关键证据。
 各案例 README 里出现的 `/opt/data/downloads/...ipa` 是当时本机构建路径，仓库不存这些包。
@@ -21,6 +21,7 @@ iOS 付费功能解锁的**静态补丁 + dylib**工具集，Linux 侧完成，�
 | LingoDeer 3.1.16 | 协议层 RSA+AES 双信封（Loon 无解） | dylib 短路会员判定 | `LingoDeer_unlock_dylib.dylib` | `apps/lingodeer/REPORT.md` |
 | Yamby 2.1.0.11（Android） | smali 门禁（20 处校验调用 + flavor 常量） | APK 重打包 | `patch_gates_v2/v3.py` | `apps/yamby-2.1.0.11/复盘-逆向分析.md` |
 | Xmind 27.01.05101 | 端上 + 服务端 RSA 签名 (`_res/devices` 的 `raw_data`)，Loon 无解 | 6 处函数头补丁（会员判定全返真） | —（无 dylib） | `apps/xmind-27.01.05101/README.md` |
+| MarginNote 5 5.0.2 | 端上（本地收据 `RMStoreAppReceiptVerifier` → `MNEntitlementSnapshot`，Loon 无解） | dylib 按类名/selector hook + 9 处静态补丁（AI 绑定硬门 + CloudKit 建容器） | `mn5hook.dylib` | `apps/marginnote5-5.0.2/README.md` |
 
 | Facetune 26.36 | 端上（三路 OR 判定，Griffin 权益无效） | 7 条指令补丁 + group 改写（未验证已封存） | `scripts/patch_facetune.py` | `apps/facetune/REPORT.md` |
 
