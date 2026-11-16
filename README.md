@@ -24,6 +24,7 @@ iOS 付费功能解锁的**静态补丁 + dylib**工具集，Linux 侧完成，�
 | MarginNote 5 5.0.2 | 端上（本地收据 `RMStoreAppReceiptVerifier` → `MNEntitlementSnapshot`，Loon 无解） | dylib 按类名/selector hook + 9 处静态补丁（AI 绑定硬门 + CloudKit 建容器） | `mn5hook.dylib` | `apps/marginnote5-5.0.2/README.md` |
 
 | Facetune 26.36 | 端上（三路 OR 判定，Griffin 权益无效） | 7 条指令补丁 + group 改写（未验证已封存） | `scripts/patch_facetune.py` | `apps/facetune/REPORT.md` |
+| 开心消消乐 1.163.235（iOS） | 端上（Cocos Lua，10764 个加密脚本；数值仍服务端账本） | 6 处 Lua 补丁（无限精力/道具 999/跳过热更新） | `apps/anipop/patch_lua.py` | `apps/anipop/README.md` |
 
 判断口诀：**回包里能找到 `is_pro` / `isPremium` 之类的字段 → 去写 Loon/QX；找不到 → 到这里来脱壳打补丁。**
 
