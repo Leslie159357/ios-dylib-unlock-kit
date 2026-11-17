@@ -1,0 +1,83 @@
+Waterllama 1.94.30 (1379) — 关键证据
+================================================================
+
+[1] 会员位写入：saveSubscriptionStatus(_:) @ 0x100352E60
+----------------------------------------------------------------
+0x1003534e8  adrp  x8, data.101118000
+0x1003534ec  ldr   x19, [x8, 0x8b8]        ; UserDefaults 单例
+0x1003534f0  ldrb  w20, [x26, 0x20]        ; status.premium 布尔位（结构体 +0x20）
+0x1003534f4  mov   x0, 0x7570              ; 'pu'
+0x1003534f8  movk  x0, 0x6372, lsl 16      ; 'rc'
+0x1003534fc  movk  x0, 0x6168, lsl 32      ; 'ha'
+0x100353500  movk  x0, 0x6574, lsl 48      ; 'te'  -> "purchase"
+0x100353504  mov   x1, 0x7453              ; 'St'
+0x100353508  movk  x1, 0x7461, lsl 16      ; 'at'
+0x10035350c  movk  x1, 0x65,   lsl 32      ; 'e'
+0x100353510  movk  x1, 0xed00, lsl 48      ; Swift small string, len=13 -> "purchaseState"
+0x100353514  bl    fcn.100bff2cc           ; String -> NSString
+0x10035351c  mov   x0, x19
+0x100353520  mov   x2, x20                 ; 值 = status.premium
+0x100353524  mov   x3, x21
+0x100353528  bl    objc_msgSend_setBool:forKey:
+0x100353550  add   x8, x8, 0x9a0           ; "Premium Features state set to: "
+
+=> 会员态就是一个 UserDefaults bool，key = "purchaseState"，无签名、无到期日、无服务端。
+
+[2] 会员位读取点（7 处，全部为 boolForKey:"purchaseState"）
+----------------------------------------------------------------
+0x1003515DC  bl objc_msgSend_boolForKey:   (0x100c07080)
+0x100352AC4  同上
+0x1004BDA70  同上
+0x1004BEA58  同上（cbz w26 -> 未付费分支）
+0x1004BFE78  同上（tbz w20,#0 -> 未付费分支）
+0x1004C059C  同上（tbz w23,#0 -> 未付费分支）
+0x1004C1A18  同上（cmp w20,#0 -> "Free"/"Premium" 文案）
+
+[3] CloudKit 首崩点：validatePremiumFeaturesAccess / processPurchases 链路
+----------------------------------------------------------------
+0x100576a84  bl    fcn.100c01eac
+0x100576a88  adrp  x8, 0x100fff000        ; CKContainer 类引用
+0x100576a8c  ldr   x0, [x8, #0x138]
+0x100576a90  bl    objc_opt_self
+0x100576a94  bl    objc_msgSend_defaultContainer:     <-- 崩溃返回地址 0x100576A98
+0x100576a98  mov   x29, x29
+0x100576a9c  bl    objc_retain
+0x100576aa0  mov   x21, x0
+
+全二进制仅 5 处 defaultContainer（0x1005715D8 / 0x100573520 / 0x1005769E8 /
+0x100576A94 / 0x100576E14），无 containerWithIdentifier: 调用点。
+
+[4] 二轮看门狗点：dispatch_group_wait
+----------------------------------------------------------------
+0x100576b0c  bl    fcn.100c0301c
+0x100576b10  bl    fcn.100c02590
+0x100576b1c  mov   x0, x21                  ; container（已被置 nil）
+0x100576b24  bl    objc_msgSend_fetchUserRecordIDWithCompletionHandler:
+0x100576b34  bl    dispatch_group_wait       <-- 主线程卡死点（返回地址 0x100576B38）
+0x100576b3c  ldp   x29, x30, [sp, #0x60]
+
+同一 stub（0x100bffe24）在本二进制共 11 个调用点，其中 7 个落在云同步代码区
+（0x10057666C / 0x100576B34 / 0x100576E48 / 0x1006460F4 / 0x100649958 /
+ 0x10064A894 / 0x10064BA00）。
+
+[5] 真机抓包（Loon 冷启动窗口，5 条）
+----------------------------------------------------------------
+firebaseremoteconfigrealtime.googleapis.com  POST ×4
+firebaseremoteconfig.googleapis.com          POST ×1
+  req : {app_instance_id:..., package_name:com.vitalii.water, app_version:1.94.30, country_code:cn}
+  resp: {"state":"NO_CHANGE","templateVersion":"61"}
+
+buy/sandbox.itunes.apple.com/verifyReceipt    0 条
+
+[6] 崩溃报告摘要
+----------------------------------------------------------------
+Water-2026-11-17-093727.ips
+  EXC_CRASH / SIGABRT, asi="abort() called"
+  libobjc.A.dylib objc_exception_throw <- CloudKit <- _dispatch_once_callout <- Water 0x100576A98
+  原因：重签丢 com.apple.developer.icloud-container-identifiers，CKContainer 抛 CKException
+
+Water-2026-11-17-095425.ips
+  SIGKILL, termination FRONTBOARD 0x8BADF00D
+  "Failed to terminate gracefully after 5.0s"
+  libdispatch _dispatch_group_wait_slow <- Water 0x100576B38
+  原因：容器置 nil 后完成回调不触发，主线程死等
